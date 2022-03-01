@@ -8,8 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 @RequestMapping(path = "/genres")
+@SessionAttributes("sessValue")
 public class GenreController {
     private GenreService genreService;
 
@@ -33,10 +37,10 @@ public class GenreController {
 
     @GetMapping(path = "/add")
     public String addPage(Model model) {
+        model.addAttribute("sessValue","Elakeed & Moaz");
         model.addAttribute("genre", new Genre());
         return "genre_add";
     }
-
     @GetMapping(path = "/update/{id}")
     public String updatePage(@PathVariable("id") Long id, Model model) {
         model.addAttribute("genre", genreService.getGenreById(id));

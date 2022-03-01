@@ -31,6 +31,7 @@
     </div>
 </nav>
 <div class="container">
+    <h1 th:text="${vvv}"></h1>
     <form th:method="post" th:action="@{/artists/save}" th:object="${artist}">
         <h3>Add new artist</h3>
         <div class="mb-3">

@@ -1,5 +1,6 @@
 package elakeed.projects.music.api;
 
+import elakeed.projects.music.aspect.TrackTime;
 import elakeed.projects.music.model.Album;
 import elakeed.projects.music.model.Genre;
 import elakeed.projects.music.service.GenreService;
@@ -26,6 +27,7 @@ public class GenreResource {
     }
 
     @GetMapping
+    @TrackTime
     public ResponseEntity<Set<Genre>> getAllGenres() {
         return ResponseEntity.ok(genreService.getAllGenres().stream().collect(Collectors.toSet()));
     }

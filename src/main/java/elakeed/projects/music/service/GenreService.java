@@ -1,7 +1,7 @@
 package elakeed.projects.music.service;
 
 import elakeed.projects.music.model.Genre;
-import elakeed.projects.music.repository.GenreDAO;
+import elakeed.projects.music.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,31 +9,31 @@ import java.util.List;
 
 @Service
 public class GenreService {
-    private GenreDAO genreDAO;
+    private GenreRepository genreRepository;
 
     @Autowired
-    public GenreService(GenreDAO genreDAO) {
-        this.genreDAO = genreDAO;
+    public GenreService(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
     }
 
     public List<Genre> getAllGenres() {
-        return genreDAO.findAll();
+        return genreRepository.getAllGenres();
     }
 
     public Genre getGenreById(Long id) {
-        return genreDAO.findById(id).orElse(null);
+        return genreRepository.getGenreById(id);
     }
 
     public Genre saveGenre(Genre genre) {
-        return genreDAO.save(genre);
+        return genreRepository.saveGenre(genre);
     }
 
     public Genre updateGenre(Long id, Genre genre) {
         genre.setGenreId(id);
-        return genreDAO.save(genre);
+        return genreRepository.saveGenre(genre);
     }
 
     public void deleteGenre(Long id) {
-        genreDAO.deleteById(id);
+        genreRepository.deleteGenreById(id);
     }
 }

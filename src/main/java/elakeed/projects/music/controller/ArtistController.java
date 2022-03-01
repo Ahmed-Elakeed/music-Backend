@@ -8,8 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping(path = "/artists")
+@SessionAttributes("sessValue")
 public class ArtistController {
     private ArtistService artistService;
 
@@ -25,7 +30,8 @@ public class ArtistController {
         return modelAndView;
     }
     @GetMapping("/add")
-    public String addPage(Model model){
+    public String addPage(Model model, HttpSession session){
+        model.addAttribute("vvv",session.getAttribute("sessValue"));
         model.addAttribute("artist",new Artist());
         return "artist_add";
     }
