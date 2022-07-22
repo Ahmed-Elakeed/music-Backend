@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/genres")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3001")
 public class GenreResource {
     private GenreService genreService;
 
@@ -48,7 +48,7 @@ public class GenreResource {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> deleteGenreById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteGenreById(@PathVariable("id") Long id) {
         Genre fetchedGenre = genreService.getGenreById(id);
         if (fetchedGenre != null) {
             if (fetchedGenre.getAlbums().size() == 0) {
@@ -62,8 +62,9 @@ public class GenreResource {
 
     @PostMapping
     public ResponseEntity<Genre> saveGenre(@RequestBody Genre genre) {
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(genreService.saveGenre(genre).getGenreId()).toUri();
-        return ResponseEntity.created(location).build();
+        Genre savedGenre=genreService.saveGenre(genre);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedGenre.getGenreId()).toUri();
+        return ResponseEntity.created(location).body(savedGenre);
     }
 
     @PutMapping(path = "/{id}")

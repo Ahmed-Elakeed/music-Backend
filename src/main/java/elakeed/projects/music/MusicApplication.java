@@ -1,6 +1,9 @@
 package elakeed.projects.music;
 
+import configuration.InvalidAgeException;
+import configuration.InvalidWidthException;
 import elakeed.projects.music.api.GenreResource;
+import elakeed.projects.music.service.ArtistService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +18,16 @@ public class MusicApplication implements CommandLineRunner {
 
     private GenreResource genreResource;
 
+    private ArtistService artistService;
+
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public MusicApplication(GenreResource genreResource) {
+    public MusicApplication(GenreResource genreResource, ArtistService artistService) {
 
         this.genreResource = genreResource;
+        this.artistService = artistService;
     }
 
 
@@ -30,10 +36,11 @@ public class MusicApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        this.genreResource.getAllGenres();
+    public void run(String... args) {
+        //calWidth(16);
+        //calAge(16);
 
-
+//          this.genreResource.getAllGenres();
 //        System.out.println("--------Jpa Repository--------");
 //        System.out.println(genreRepository.getAllGenres());
 //        System.out.println(genreRepository.getGenreById(15L));
@@ -52,5 +59,22 @@ public class MusicApplication implements CommandLineRunner {
 //        genreRepository.saveGenreByHibernateSession(new Genre("a Smhgadave"));
 //        genreRepository.updateGenreByHibernateSession(new Genre("Jpa Save update"),24L);
 //        genreRepository.deleteGenreByIdByHibernateSession(33L);
+    }
+
+
+    public static void calAge(int age) throws InvalidAgeException {
+        if (age >= 18) {
+            System.out.println("+18");
+        } else {
+            throw new InvalidAgeException();
+        }
+    }
+
+    public static void calWidth(int width) throws InvalidWidthException {
+        if (width >= 18) {
+            System.out.println("+18");
+        } else {
+            throw new InvalidWidthException();
+        }
     }
 }

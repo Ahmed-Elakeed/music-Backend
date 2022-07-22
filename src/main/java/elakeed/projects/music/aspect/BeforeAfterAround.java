@@ -30,13 +30,13 @@ public class BeforeAfterAround {
         logger.info("{} return with value {}", joinPoint, responseEntity.getBody());
     }
 
-    @Around(value = "execution(* elakeed.projects.music.api.*.*(..))")
-    public void aroundExecute(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        Long startTime = System.currentTimeMillis();
-        proceedingJoinPoint.proceed();
-        Long allTime = System.currentTimeMillis() - startTime;
-        logger.info("Time taken {}", allTime);
-    }
+//    @Around(value = "execution(* elakeed.projects.music.api.*.*(..))")
+//    public void aroundExecute(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+//        Long startTime = System.currentTimeMillis();
+//        proceedingJoinPoint.proceed();
+//        Long allTime = System.currentTimeMillis() - startTime;
+//        logger.info("Time taken {}", allTime);
+//    }
 
 
     /////---------- using CommonJoinPointConfig ----------/////
@@ -57,13 +57,11 @@ public class BeforeAfterAround {
     }
 
 
-    @Around(value = "elakeed.projects.music.aspect.CommonJoinPointConfig.trackTimeAnnotation()")
-    public void CommonAroundExecute(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        Long startTime = System.currentTimeMillis();
-        proceedingJoinPoint.proceed();
-        Long allTime = System.currentTimeMillis() - startTime;
-        logger.info("Time taken {}", allTime);
-    }
-
-
+//    @Around(value = "elakeed.projects.music.aspect.CommonJoinPointConfig.trackTimeAnnotation()")
+//    public void CommonAroundExecute(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+//        Long startTime = System.currentTimeMillis();
+//        proceedingJoinPoint.proceed();
+//        Long allTime = System.currentTimeMillis() - startTime;
+//        logger.info("Time taken {}", allTime);
+//    }
 }

@@ -5,12 +5,10 @@ import elakeed.projects.music.model.Artist;
 import elakeed.projects.music.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/artists")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3001")
 public class ArtistResource {
 
     private ArtistService artistService;
@@ -43,14 +41,8 @@ public class ArtistResource {
     }
 
     @GetMapping(path = "/{id}/albums")
-    @Transactional
-    public ResponseEntity<Integer> getAlbumsForArtistById(@PathVariable("id") Long id) {
-        Artist artist=artistService.getArtistById(id);
-        if(artist!=null) {
-            return ResponseEntity.ok().body(artist.getAlbums().size());
-        }else{
-            return ResponseEntity.ok().body(0);
-        }
+    public ResponseEntity<List<Album>> getAlbumsForArtistById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(artistService.getArtistById(id).getAlbums().stream().collect(Collectors.toList()));
     }
 
     @DeleteMapping(path = "/{id}")
@@ -68,8 +60,9 @@ public class ArtistResource {
 
     @PostMapping
     public ResponseEntity<Artist> saveArtist(@RequestBody Artist artist) {
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(artistService.saveArtist(artist).getArtistId()).toUri();
-        return ResponseEntity.created(location).build();
+        Artist savedArtist = artistService.saveArtist(artist);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedArtist.getArtistId()).toUri();
+        return ResponseEntity.created(location).body(savedArtist);
     }
 
     @PutMapping(path = "/{id}")

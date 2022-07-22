@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/albums")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3001")
 public class AlbumResource {
     private AlbumService albumService;
     private ArtistService artistService;
@@ -30,7 +30,7 @@ public class AlbumResource {
 
     @GetMapping
     public ResponseEntity<Set<Album>> getAllAlbums() {
-        return ResponseEntity.ok(albumService.getAllAlbums().stream().collect(Collectors.toSet()));
+        return ResponseEntity.ok().body(albumService.getAllAlbums().stream().collect(Collectors.toSet()));
     }
 
     @GetMapping(path = "/{id}")
@@ -58,8 +58,9 @@ public class AlbumResource {
                 || genreService.getGenreById(album.getGenre().getGenreId()) == null) {
             return ResponseEntity.badRequest().header("Message", "Wrong artist or genre data").build();
         }
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(albumService.saveAlbum(album).getAlbumId()).toUri();
-        return ResponseEntity.created(location).build();
+        Album savedAlbum=albumService.saveAlbum(album);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedAlbum.getAlbumId()).toUri();
+        return ResponseEntity.created(location).body(savedAlbum);
     }
 
     @PutMapping(path = "/{id}")
